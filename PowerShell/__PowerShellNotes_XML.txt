@@ -1,0 +1,53 @@
+
+
+https://blogs.msdn.microsoft.com/sonam_rastogi_blogs/2014/05/14/update-xml-file-using-powershell/
+
+
+## IMPORTANT - to get list of properties/methods of an object ... 
+object | gm
+
+
+
+
+
+# this is where the document will be saved:
+$Path = "$env:temp\inventory.xml"
+
+#Where $env == C:\Users\lester\AppData\Local\
+ 
+# get an XMLTextWriter to create the XML
+$XmlWriter = New-Object System.XMl.XmlTextWriter($Path,$Null)
+
+
+#################################################################
+# Avoid loading XML like this
+# $xml = [xml](Get-Content $file)
+
+# This is 7x Faster ...
+$xml = New-Object -TypeName XML
+$xml.Load($file)
+
+$node = Select-XML -Xml $xml -XPath 'XPathGoesHere'
+# This returns Type = SelectXmlInfo
+# Then ... to get actual Selected Node
+$node.Node 
+
+
+#################################################################
+$oldperson = @($xml.employee.person)[0]
+
+To add a new entry to my XML, I first grab an existing entry. Since my XML only contains one 
+person at this time, I make sure I wrap the call in @(). This way, I always receive an array 
+even though there is only one entry. Without this statement, PowerShell would have returned 
+the person item right away. Next, I read the first person from that array using index #0 
+and store it as $oldperson.
+
+
+#################################################################
+$Namespace = @{command = "http://schemas.microsoft.com/maml/dev/command/2004/10"; maml = "http://schemas.microsoft.com/maml/2004/10"; dev = "http://schemas.microsoft.com/maml/dev/2004/10"}
+
+$Xml = Select-Xml -Path $Path -Namespace $Namespace -XPath "//command:name"
+
+#################################################################
+
+

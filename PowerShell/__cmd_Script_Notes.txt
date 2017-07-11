@@ -1,0 +1,5 @@
+
+I think this gets you the current directory ??
+
+
+ %~dp0\

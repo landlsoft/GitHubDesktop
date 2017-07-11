@@ -1,0 +1,49 @@
+
+REM: can NOT contain % or it will BLOW
+
+-------------------------------------------------------------------------------------
+Get-ExecutionPolicy
+                    Unrestricted | RemoteSigned | AllSigned | Restricted
+Set-ExecutionPolicy Unrestricted -Scope Process
+-------------------------------------------------------------------------------------
+
+http://technet.microsoft.com/en-us/library/ee176949.aspx
+
+PS: Tip on passing strings as arguments: They must be enclosed in single quotes.
+
+PS: Tip on passing directory as argument: Enclosed in single quotes.
+
+In .cmd file:
+powershell.exe "& E:\Common\lbin\PowerShell\EditAndRename.ps1 testInFile.txt testOutFile.txt 'ReplaceMe' 'LESTER'" 
+
+From PS UI: 
+E:\Common\lbin\PowerShell\EditAndRename.ps1 testInFile.txt testOutFile.txt 'ReplaceMe' 'LESTER'
+
+
+
+$name = Read-Host 'What is your username?'
+echo $name
+
+An Array
+#$aaa = @( 'E:\Common\a\test.xml', '//Project/DTSPackages', '<DtsPackage></DtsPackage>' )
+#$file = $aaa[0]
+#$parentNodeXPath = $aaa[1]
+#$newNodeXml = $aaa[2]
+
+----- IMPORTANT ------
+
+Running from PS Window
+                  E:\Common\lbin\PowerShell\InsertXMLNode.ps1 C:\Common\a\SSIS.dtproj '/Project/DTSPackages' '<DtsPackage FormatVersion="3"></DtsPackage>'"
+
+	VS. Running from CMD Window ... IMPORTANT to ESCAPE " as \" .................................................................. vvvvv
+
+powershell.exe "& E:\Common\lbin\PowerShell\InsertXMLNode.ps1 C:\Common\a\SSIS.dtproj '/Project/DTSPackages' '<DtsPackage FormatVersion=\"3\"></DtsPackage>'"
+
+-----------------------------------------------------------------------------
+From cmd command line:
+FOR /F %a  IN ('POWERSHELL -COMMAND "$([guid]::NewGuid().ToString())"') DO ( SET NEWGUID=%a )
+
+In .cmd file
+       vv                                                                                vv
+FOR /F %%a IN ('POWERSHELL -COMMAND "$([guid]::NewGuid().ToString())"') DO ( SET NEWGUID=%%a )
+
